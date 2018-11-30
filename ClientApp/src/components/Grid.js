@@ -7,11 +7,13 @@ export default class GridExampleRelaxed extends Component {
     super(props);
     this.state = {
       items: [],
+      images: [],
       isLoaded: false
     }
   }
+  
   componentDidMount() {
-    fetch('https://jsonplaceholder.typicode.com/users')
+    fetch('https://localhost:5001/api/product')
       .then(res => res.json())
       .then(json => {
         this.setState({
@@ -19,9 +21,17 @@ export default class GridExampleRelaxed extends Component {
           items: json
         })
       });
+    fetch('https://localhost:5001/api/image')
+      .then(res => res.json())
+      .then(json => {
+        this.setState({
+          isLoaded: true,
+          images: json
+        })
+      });
   }
   render() {
-    var { isLoaded, items } = this.state;
+    var { isLoaded, items, images } = this.state;
     if (!isLoaded) {
       return <div>Loading...</div>;
     }
@@ -33,12 +43,12 @@ export default class GridExampleRelaxed extends Component {
               <Grid.Column>
                 <NavLink to='./product'>
                   <Card href='#card-example-link-card' color='teal'>
-                    <Image src='https://react.semantic-ui.com/images/wireframe/image.png' />
+                    {images.map(image => 
+                      <Image src= {image.url} />
+                    )}
                     <CardContent>
-                      <Card.Header><Icon name='euro sign' />{item.id}</Card.Header>
+                      <Card.Header><Icon name='euro sign' />{item.price}</Card.Header>
                       <Card.Meta>{item.name}</Card.Meta>
-                      <Card.Description>{item.email}</Card.Description>
-                      {/* <Menu.Item className='header'>{item.email}</Menu.Item> */}
                     </CardContent>
                   </Card>
                   <Divider hidden />
