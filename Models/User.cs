@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace TripStyle.Models
+namespace TripStyle.Api.Models
 {
     public class User
     {

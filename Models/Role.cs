@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 
-namespace TripStyle.Models
+namespace TripStyle.Api.Models
 {
     public class Role
     {

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using TripStyle.Models;
+using TripStyle.Api.Models;
 
-namespace TripStyle.Controllers
+namespace TripStyle.Api.Controllers
 {
     [Route("api/[controller]")]
     public class AddressController : Controller
