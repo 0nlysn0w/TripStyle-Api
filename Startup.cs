@@ -31,6 +31,7 @@ namespace TripStyle.Api
                 opt => opt.UseSqlite("Data Source=tripstyle.db")
             );
 
+            services.AddCors();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
@@ -45,6 +46,12 @@ namespace TripStyle.Api
             {
                 app.UseHsts();
             }
+
+            app.UseCors(x => x
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials());
 
             app.UseHttpsRedirection();
             app.UseMvc();
