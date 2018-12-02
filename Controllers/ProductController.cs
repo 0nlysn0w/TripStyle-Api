@@ -44,42 +44,27 @@ namespace TripStyle.Api.Controllers
         [HttpGet("{id}", Name = "GetProduct")]
         public IQueryable<Product> Get(int id)
         {
-
-            //var product = _context.Products.FirstOrDefault(p => p.ProductId ==id);
-            //if (product == null)    
-            //    {  
-            //    return NotFound ();
-            //    }
-            //return new ObjectResult (product);
-            
-            // Product product = _context.Products.Find(id);
-            // if  (product == null)
-            // {
-            //     return NotFound();
-            // }
-            // return product;
-                var result = from p in _context.Products where p.ProductId == id
-                join i in _context.Images
-                on p.ProductId equals i.ImageId into ProIma
-                select new Product{
-                    ProductId = p.ProductId,
-                    Price = p.Price,
-                    Name = p.Name,
-                    Make = p.Make,
-                    Stock =p.Stock,
-                    Size = p.Size,
-                    Color =p.Color,
-                    Region =p.Region,
-                    Season = p.Season,
-                    Category =p.Category,
-                    PurchaseLines = p.PurchaseLines,
-                    //ReleaseYear = m.ReleaseYear,
-                    Images = ProIma.ToList()
-                };
+            var result = from p in _context.Products where p.ProductId == id
+            join i in _context.Images
+            on p.ProductId equals i.ImageId into ProIma
+            select new Product{
+                ProductId = p.ProductId,
+                Price = p.Price,
+                Name = p.Name,
+                Make = p.Make,
+                Stock =p.Stock,
+                Size = p.Size,
+                Color =p.Color,
+                Region =p.Region,
+                Season = p.Season,
+                Category =p.Category,
+                PurchaseLines = p.PurchaseLines,
+                //ReleaseYear = m.ReleaseYear,
+                Images = ProIma.ToList()
+            };
     
             return result;
         }
-        
 
         [HttpPost]
         public IActionResult Create([FromBody]Product product)
@@ -132,5 +117,17 @@ namespace TripStyle.Api.Controllers
             _context.SaveChanges();
             return NoContent();
         }
+
+        [HttpGet("{color}")]
+        public IEnumerable<Product> Get(string color)
+        {
+            return _context.Products.Where(product => product.Color == color).ToList();
+        }
+        
+        [HttpGet("Region/{searchterm}")]
+        public IEnumerable<Product> Getsearch(string searchterm)
+        {
+            return _context.Products.Where(p=>p.Region == searchterm).OrderBy(p=>p.Price).ToList();
+        }    
     }
 }
