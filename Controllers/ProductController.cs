@@ -17,29 +17,29 @@ namespace TripStyle.Api.Controllers
             _context = context;
         }
 
-        [HttpGet]
-        public IQueryable<Product> Get()
-        {
-                var result = from p in _context.Products 
-                join i in _context.Images
-                on p.ProductId equals i.ImageId into ProIma
-                select new Product{
-                    ProductId = p.ProductId,
-                    Price = p.Price,
-                    Name = p.Name,
-                    Make = p.Make,
-                    Stock =p.Stock,
-                    Size = p.Size,
-                    Color =p.Color,
-                    Region =p.Region,
-                    Season = p.Season,
-                    Category =p.Category,
-                    PurchaseLines = p.PurchaseLines,
-                    //ReleaseYear = m.ReleaseYear,
-                    Images = ProIma.ToList()
-                };
-                return result;
-        }
+    //  [HttpGet]
+    //     public IQueryable<Product> Get()
+    //     {
+    //             var result = from p in _context.Products 
+    //             join i in _context.Images
+    //             on p.ProductId equals i.ImageId into ProIma
+    //             select new Product{
+    //                 ProductId = p.ProductId,
+    //                 Price = p.Price,
+    //                 Name = p.Name,
+    //                 Make = p.Make,
+    //                 Stock =p.Stock,
+    //                 Size = p.Size,
+    //                 Color =p.Color,
+    //                 Region =p.Region,
+    //                 Season = p.Season,
+    //                 Category =p.Category,
+    //                 PurchaseLines = p.PurchaseLines,
+    //                 //ReleaseYear = m.ReleaseYear,
+    //                 Images = ProIma.ToList()
+    //             };
+    //             return result;
+    //     }   
 
         [HttpGet("{id}", Name = "GetProduct")]
         public IQueryable<Product> Get(int id)
@@ -64,6 +64,26 @@ namespace TripStyle.Api.Controllers
             };
     
             return result;
+        }
+
+        [HttpGet]
+        public IEnumerable<Product> Get(
+            // string gender, string type, 
+            string color, string region)
+        {
+            if (color != null && region != null)
+            {
+                return _context.Products.Where(product => product.Region == region && product.Color == color).ToList();
+            }
+            if(color != null && region==null)
+            {
+                return _context.Products.Where(product => product.Color == color).ToList();
+            }
+            if(color == null && region != null)
+            {
+                return _context.Products.Where(product => product.Region == region).ToList();
+            }
+            return _context.Products.ToList();
         }
 
         [HttpPost]
