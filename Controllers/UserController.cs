@@ -16,9 +16,10 @@ namespace TripStyle.Api.Controllers
         private readonly TripStyleContext _context;
         private IUserService _userService;
 
-        public UserController(TripStyleContext context)
+        public UserController(TripStyleContext context, IUserService userService)
         {
             _context = context;
+            _userService = userService;
         }
 
         [AllowAnonymous]
@@ -33,12 +34,12 @@ namespace TripStyle.Api.Controllers
             return Ok(user);
         }
 
-        [HttpGet]
-        public IActionResult GetAll()
-        {
-            var users =  _userService.GetAll();
-            return Ok(users);
-        }
+        // [HttpGet]
+        // public IActionResult GetAll()
+        // {
+        //     var users =  _userService.GetAll();
+        //     return Ok(users);
+        // }
 
 
         [HttpGet]

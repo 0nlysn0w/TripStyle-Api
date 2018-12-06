@@ -22,16 +22,11 @@ namespace TripStyle.Api.Services
     public class UserService : IUserService
     {
         private readonly TripStyleContext _context;
-
-        public UserService(TripStyleContext context)
-        {
-            _context = context;
-        }
-
         private readonly AppSettings _appSettings;
 
-        public UserService(IOptions<AppSettings> appSettings)
+        public UserService(TripStyleContext context, IOptions<AppSettings> appSettings)
         {
+            _context = context;
             _appSettings = appSettings.Value;
         }
 
