@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TripStyle.Api.Models;
+using TripStyle.Api.Services;
 
 namespace TripStyle.Api.Controllers
 {
@@ -12,11 +14,32 @@ namespace TripStyle.Api.Controllers
     public class UserController : Controller
     {
         private readonly TripStyleContext _context;
+        private IUserService _userService;
 
         public UserController(TripStyleContext context)
         {
             _context = context;
         }
+
+        [AllowAnonymous]
+        [HttpPost("authenticate")]
+        public IActionResult Authenticate([FromBody]User userParam)
+        {
+            var user = _userService.Authenticate(userParam.Email, userParam.Password);
+
+            if (user == null)
+                return BadRequest(new { message = "Email or password is incorrect" });
+
+            return Ok(user);
+        }
+
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            var users =  _userService.GetAll();
+            return Ok(users);
+        }
+
 
         [HttpGet]
         public IEnumerable<User> Get()

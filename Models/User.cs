@@ -12,8 +12,9 @@ namespace TripStyle.Api.Models
         public string Gender { get; set; }
         public string Email { get; set; }
         public string Phonenumber { get; set; }
-        public string Password { get; set; }
         public string Birthdate { get; set; }
+        public string Password { get; set; }
+        public string Token { get; set; }
 
         public ICollection<Purchase> Purchases { get; set; }
         // public Basket Basket { get; set; }
