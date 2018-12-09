@@ -18,12 +18,15 @@ namespace TripStyle.Api.Controllers
             _context = context;
         }
 
+        [ProducesResponseType(200)]
         [HttpGet]
         public IEnumerable<Role> Get()
         {
             return _context.Roles.ToList();
         }
 
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
         [HttpGet("{id}", Name = "GetRole")]
         public ActionResult<Role> GetById(int id)
         {

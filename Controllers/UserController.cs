@@ -26,6 +26,7 @@ namespace TripStyle.Api.Controllers
         [HttpPost("authenticate")]
         public IActionResult Authenticate([FromBody]User userParam)
         {
+            Console.WriteLine("==> " + userParam);
             var user = _userService.Authenticate(userParam.Email, userParam.Password);
 
             if (user == null)

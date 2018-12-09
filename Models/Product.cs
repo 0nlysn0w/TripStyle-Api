@@ -15,10 +15,24 @@ namespace TripStyle.Api.Models
         public string Region { get; set; }
         public string Season { get; set; }
 
-
         public ICollection<Image> Images { get; set; }
+
         public Category Category { get; set; }
         public ICollection<PurchaseLine> PurchaseLines { get; set; }
         // public ICollection<BasketProduct> BasketProducts { get; set; }
+    }
+
+    public class ProductImages : Product {
+        public ICollection<Image> Images { get; set; }
+
+    }
+
+    public class ProductImage : Product {
+
+        ProductImage(Product p) {
+
+        }
+        public Image Images { get; set; }
+
     }
 }

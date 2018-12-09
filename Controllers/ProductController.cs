@@ -17,7 +17,9 @@ namespace TripStyle.Api.Controllers
             _context = context;
         }
 
+        [ProducesResponseType(200)]
         [HttpGet]
+        
         public IQueryable<Product> Get()
         {
                 var result = from p in _context.Products 
@@ -41,6 +43,7 @@ namespace TripStyle.Api.Controllers
                 return result;
         }
 
+        [ProducesResponseType(200)]
         [HttpGet("{id}", Name = "GetProduct")]
         public IQueryable<Product> Get(int id)
         {

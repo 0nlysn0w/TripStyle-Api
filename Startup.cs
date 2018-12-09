@@ -17,6 +17,8 @@ using Microsoft.IdentityModel.Tokens;
 using TripStyle.Api.Helpers;
 using TripStyle.Api.Models;
 using TripStyle.Api.Services;
+using Swashbuckle.AspNetCore;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace TripStyle.Api
 {
@@ -67,6 +69,13 @@ namespace TripStyle.Api
             // configure DI for application services
             services.AddScoped<IUserService, UserService>();
 
+            services.AddSwaggerGen(swagger =>
+            {
+                swagger.DescribeAllEnumsAsStrings();
+                swagger.DescribeAllParametersInCamelCase();
+                swagger.SwaggerDoc("v1", new Swashbuckle.AspNetCore.Swagger.Info { Title = "My First Swagger" });
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -88,6 +97,11 @@ namespace TripStyle.Api
                 .AllowCredentials());
 
             app.UseHttpsRedirection();
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My First Swagger");
+            });
             app.UseMvc();
         }
     }
