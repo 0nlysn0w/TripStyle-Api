@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace TripStyle.Models
+namespace TripStyle.Api.Models
 {
     public class Image
     {

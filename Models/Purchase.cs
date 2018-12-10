@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System;
 
-namespace TripStyle.Models
+namespace TripStyle.Api.Models
 {
     public class Purchase
     {

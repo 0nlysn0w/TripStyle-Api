@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 
-namespace TripStyle.Models
+namespace TripStyle.Api.Models
 {
     public class TripStyleContext : DbContext
     {
@@ -17,10 +17,13 @@ namespace TripStyle.Models
         public DbSet<Role> Roles { get; set; }
         public DbSet<User> Users { get; set; }
 
-        // protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        // {
-        //     optionsBuilder.UseSqlite("Data Source=tripstyle.db");
-        // }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+         {
+             //optionsBuilder.UseSqlServer("Data Source=145.24.222.139,8080;" +
+             //                                "Database=TripStyleDB;Persist Security Info=True;" +
+             //                                "User ID=sa; Password=Tripstyle2018");
+             optionsBuilder.UseSqlite("Data Source=../TripStyle.Api/tripstyle.db");
+         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

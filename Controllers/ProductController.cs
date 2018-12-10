@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using TripStyle.Models;
+using TripStyle.Api.Models;
 
-namespace TripStyle.Controllers
+namespace TripStyle.Api.Controllers
 {
     [Route("api/[controller]")]
     public class ProductController : Controller
@@ -17,22 +17,73 @@ namespace TripStyle.Controllers
             _context = context;
         }
 
-        [HttpGet]
-        public IEnumerable<Product> Get()
-        {
-            return _context.Products.ToList();
-        }
+    //  [HttpGet]
+    //     public IQueryable<Product> Get()
+    //     {
+    //             var result = from p in _context.Products 
+    //             join i in _context.Images
+    //             on p.ProductId equals i.ImageId into ProIma
+    //             select new Product{
+    //                 ProductId = p.ProductId,
+    //                 Price = p.Price,
+    //                 Name = p.Name,
+    //                 Make = p.Make,
+    //                 Stock =p.Stock,
+    //                 Size = p.Size,
+    //                 Color =p.Color,
+    //                 Region =p.Region,
+    //                 Season = p.Season,
+    //                 Category =p.Category,
+    //                 PurchaseLines = p.PurchaseLines,
+    //                 //ReleaseYear = m.ReleaseYear,
+    //                 Images = ProIma.ToList()
+    //             };
+    //             return result;
+    //     }   
 
         [HttpGet("{id}", Name = "GetProduct")]
-        public ActionResult<Product> Get(int id)
+        public IQueryable<Product> Get(int id)
         {
-            Product product = _context.Products.Find(id);
-            if  (product == null)
-            {
-                return NotFound();
-            }
+            var result = from p in _context.Products where p.ProductId == id
+            join i in _context.Images
+            on p.ProductId equals i.ImageId into ProIma
+            select new Product{
+                ProductId = p.ProductId,
+                Price = p.Price,
+                Name = p.Name,
+                Make = p.Make,
+                Stock =p.Stock,
+                Size = p.Size,
+                Color =p.Color,
+                Region =p.Region,
+                Season = p.Season,
+                Category =p.Category,
+                PurchaseLines = p.PurchaseLines,
+                //ReleaseYear = m.ReleaseYear,
+                Images = ProIma.ToList()
+            };
+    
+            return result;
+        }
 
-            return product;
+        [HttpGet]
+        public IEnumerable<Product> Get(
+            // string gender, string type, 
+            string color, string region)
+        {
+            if (color != null && region != null)
+            {
+                return _context.Products.Where(product => product.Region == region && product.Color == color).ToList();
+            }
+            if(color != null && region==null)
+            {
+                return _context.Products.Where(product => product.Color == color).ToList();
+            }
+            if(color == null && region != null)
+            {
+                return _context.Products.Where(product => product.Region == region).ToList();
+            }
+            return _context.Products.ToList();
         }
 
         [HttpPost]
@@ -86,5 +137,17 @@ namespace TripStyle.Controllers
             _context.SaveChanges();
             return NoContent();
         }
+
+        [HttpGet("{color}")]
+        public IEnumerable<Product> Get(string color)
+        {
+            return _context.Products.Where(product => product.Color == color).ToList();
+        }
+        
+        [HttpGet("Region/{searchterm}")]
+        public IEnumerable<Product> Getsearch(string searchterm)
+        {
+            return _context.Products.Where(p=>p.Region == searchterm).OrderBy(p=>p.Price).ToList();
+        }    
     }
 }

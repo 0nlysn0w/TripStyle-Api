@@ -1,15 +1,19 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using TripStyle.Models;
-using Microsoft.EntityFrameworkCore;
-using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using TripStyle.Api.Models;
 
-namespace TripStyle
+namespace TripStyle.Api
 {
     public class Startup
     {
@@ -24,27 +28,11 @@ namespace TripStyle
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<TripStyleContext>(
-                // opt => opt.UseSqlServer("Data Source=145.24.222.139,8080;" +
-                //                             "Database=TripStyle2;Persist Security Info=True;" +
-                //                             "User ID=sa; Password=Tripstyle2018")
                 opt => opt.UseSqlite("Data Source=tripstyle.db")
             );
 
-            //             services.AddDbContextPool<YourDbContext>( // replace "YourDbContext" with the class name of your DbContext
-            //     options => options.UseMySql("Server=localhost;Database=ef;User=root;Password=123456;", // replace with your Connection String
-            //         mysqlOptions =>
-            //         {
-            //             mySqlOptions.ServerVersion(new Version(5, 7, 17), ServerType.MySql); // replace with your Server Version and Type
-            //         }
-            // ));
-
+            services.AddCors();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
-            // In production, the React files will be served from this directory
-            services.AddSpaStaticFiles(configuration =>
-            {
-                configuration.RootPath = "ClientApp/build";
-            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,30 +44,17 @@ namespace TripStyle
             }
             else
             {
-                app.UseExceptionHandler("/Error");
                 app.UseHsts();
             }
 
+            app.UseCors(x => x
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials());
+
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
-            app.UseSpaStaticFiles();
-
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller}/{action=Index}/{id?}");
-            });
-
-            app.UseSpa(spa =>
-            {
-                spa.Options.SourcePath = "ClientApp";
-
-                if (env.IsDevelopment())
-                {
-                    spa.UseReactDevelopmentServer(npmScript: "start");
-                }
-            });
+            app.UseMvc();
         }
     }
 }
