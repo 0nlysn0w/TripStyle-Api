@@ -65,6 +65,7 @@ namespace TripStyle.Api.Controllers
     
             return result;
         }
+        
 
         [HttpGet]
         public IEnumerable<Product> Get(
@@ -138,11 +139,6 @@ namespace TripStyle.Api.Controllers
             return NoContent();
         }
 
-        [HttpGet("{color}")]
-        public IEnumerable<Product> Get(string color)
-        {
-            return _context.Products.Where(product => product.Color == color).ToList();
-        }
         
         [HttpGet("Region/{searchterm}")]
         public IEnumerable<Product> Getsearch(string searchterm)
