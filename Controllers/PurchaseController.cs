@@ -20,14 +20,14 @@ namespace TripStyle.Api.Controllers
         public IQueryable<Purchase> GetOrderofUser(int id)
         {
          
-            var purchase = _context.Purchases.Where(i => i.IsWishlist == false);
+            var purchase = _context.Purchases.Where(i => i.IsConfirmed == false);
 
             return purchase;
         }
         public IQueryable<Purchase> GetWishlistofUser(int id)
         {
          
-            var purchase = _context.Purchases.Where(i => i.IsWishlist == false);
+            var purchase = _context.Purchases.Where(i => i.IsConfirmed == false);
 
             return purchase;
         }

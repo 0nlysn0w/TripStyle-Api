@@ -17,29 +17,29 @@ namespace TripStyle.Api.Controllers
             _context = context;
         }
 
-    //  [HttpGet]
-    //     public IQueryable<Product> Get()
-    //     {
-    //             var result = from p in _context.Products 
-    //             join i in _context.Images
-    //             on p.ProductId equals i.ImageId into ProIma
-    //             select new Product{
-    //                 ProductId = p.ProductId,
-    //                 Price = p.Price,
-    //                 Name = p.Name,
-    //                 Make = p.Make,
-    //                 Stock =p.Stock,
-    //                 Size = p.Size,
-    //                 Color =p.Color,
-    //                 Region =p.Region,
-    //                 Season = p.Season,
-    //                 Category =p.Category,
-    //                 PurchaseLines = p.PurchaseLines,
-    //                 //ReleaseYear = m.ReleaseYear,
-    //                 Images = ProIma.ToList()
-    //             };
-    //             return result;
-    //     }   
+     [HttpGet]
+        public IQueryable<Product> Get()
+        {
+                var result = from p in _context.Products 
+                join i in _context.Images
+                on p.ProductId equals i.ImageId into ProIma
+                select new Product{
+                    ProductId = p.ProductId,
+                    Price = p.Price,
+                    Name = p.Name,
+                    Make = p.Make,
+                    Stock =p.Stock,
+                    Size = p.Size,
+                    Color =p.Color,
+                    Region =p.Region,
+                    Season = p.Season,
+                    Category =p.Category,
+                    PurchaseLines = p.PurchaseLines,
+                    //ReleaseYear = m.ReleaseYear,
+                    Images = ProIma.ToList()
+                };
+                return result;
+        }   
 
         [HttpGet("{id}", Name = "GetProduct")]
         public IQueryable<Product> Get(int id)
@@ -66,25 +66,24 @@ namespace TripStyle.Api.Controllers
             return result;
         }
 
-        [HttpGet]
-        public IEnumerable<Product> Get(
-            // string gender, string type, 
-            string color, string region)
-        {
-            if (color != null && region != null)
-            {
-                return _context.Products.Where(product => product.Region == region && product.Color == color).ToList();
-            }
-            if(color != null && region==null)
-            {
-                return _context.Products.Where(product => product.Color == color).ToList();
-            }
-            if(color == null && region != null)
-            {
-                return _context.Products.Where(product => product.Region == region).ToList();
-            }
-            return _context.Products.ToList();
-        }
+        // [HttpGet]
+        // // string gender, string type, 
+         public IEnumerable<Product> Get(string color, string region)
+         {
+             if (color != null && region != null)
+             {
+                 return _context.Products.Where(product => product.Region == region && product.Color == color).ToList();
+             }
+             if(color != null && region==null)
+             {
+                 return _context.Products.Where(product => product.Color == color).ToList();
+             }
+             if(color == null && region != null)
+             {
+                 return _context.Products.Where(product => product.Region == region).ToList();
+             }
+             return _context.Products.ToList();
+         }
 
         [HttpPost]
         public IActionResult Create([FromBody]Product product)
@@ -145,9 +144,55 @@ namespace TripStyle.Api.Controllers
         }
         
         [HttpGet("Region/{searchterm}")]
-        public IEnumerable<Product> Getsearch(string searchterm)
+        public IEnumerable<ProductResponse> Getsearch(string searchterm)
         {
-            return _context.Products.Where(p=>p.Region == searchterm).OrderBy(p=>p.Price).ToList();
-        }    
-    }
-}
+            var result = _context.Products.Where(p=>p.Region == searchterm).Select (p=>new ProductResponse{Name=p.Name,Color=p.Color,Price=p.Price,Season=p.Season, Size=p.Size,Region=searchterm}).OrderBy(p=>p.Price).ToList();
+            return result;
+        }   
+
+        [HttpGet("Name/{searchterm}")]
+        public IEnumerable<ProductResponse> GetsearchName(string searchterm)
+        {
+
+            var result = _context.Categories.FirstOrDefault(p=>p.Name == searchterm);
+            var products = _context.Products.Where(p=>p.CategoryId==result.CategoryId).Select (p=>new ProductResponse{Name=p.Name,Color=p.Color,Price=p.Price,Region=p.Region,Season=p.Season,Size=p.Size,CategoryName=searchterm}).OrderBy(p=>p.Price) .ToList();
+           
+            return products;     
+        }
+
+        // [HttpPost("Shoppingcart")]
+        // public IActionResult InsertIntoShoppingcart([FromBody]PurchaseLineApiRequest Request)
+        // {
+
+        //     var result = _context.Products.Where(P=>P.ProductId==Request.ProductId ).ToList();
+
+            
+        //           if (!result.Any()){
+        //               return BadRequest(" selected product doesn't exist");
+
+        //           }
+        //     var result1 = _context.Users.Where(u=>u.UserId== Request.UserId).Include(u=>u.Purchases).SelectMany(u=>u.Purchases).FirstOrDefault(p=>!p.IsConfirmed);
+             
+               
+            
+        //     return result1;
+
+        // }
+/* var selected = table.Where(t => uids.Contains(t.uid));
+var result1 = this._context.Users.Where(u=>u.UserId== Request.UserId).Contains(u=>u.Purchase)
+                       .Where(prod => itemsIds.Contains(prod.Id)
+                       .Select(prod => new
+                       {
+                           Id = prod. ProductId,
+                           Name = prod.Name,
+                           Color = prod.Color,
+                           Size = prod.Size,
+                           Quantity = prod.Quantity
+                           //Price = prod.Price.Where(price => price.Current == 1).Select(price => price.Value).Single()
+                       }));
+
+
+            return new OkObjectResult(result);
+
+    }*/
+}}
