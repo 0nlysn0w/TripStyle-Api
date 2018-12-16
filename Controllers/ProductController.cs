@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using TripStyle.Api.Models;
 
 namespace TripStyle.Api.Controllers
@@ -16,8 +18,26 @@ namespace TripStyle.Api.Controllers
         {
             _context = context;
         }
+        [HttpGet]
+        public IEnumerable<Product> Get()
+        {
+            return _context.Products.ToList();
+        }
 
-     [HttpGet]
+        [HttpGet("{id}", Name = "GetProduct")]
+        public ActionResult<Product> Get(int id)
+        {
+            Product product = _context.Products.Find(id);
+            if  (product == null)
+            {
+                return NotFound();
+            }
+
+            return product;
+        }
+
+
+     /*  [HttpGet]
         public IQueryable<Product> Get()
         {
                 var result = from p in _context.Products 
@@ -41,7 +61,7 @@ namespace TripStyle.Api.Controllers
                 return result;
         }   
 
-        [HttpGet("{id}", Name = "GetProduct")]
+         [HttpGet("{id}", Name = "GetProduct")]
         public IQueryable<Product> Get(int id)
         {
             var result = from p in _context.Products where p.ProductId == id
@@ -64,11 +84,11 @@ namespace TripStyle.Api.Controllers
             };
     
             return result;
-        }
+        }*/
 
         // [HttpGet]
         // // string gender, string type, 
-         public IEnumerable<Product> Get(string color, string region)
+          public IEnumerable<Product> Get(string color, string region)
          {
              if (color != null && region != null)
              {
@@ -99,7 +119,7 @@ namespace TripStyle.Api.Controllers
             return CreatedAtRoute("GetProduct", new { id = product.ProductId}, product);
         }
 
-        [HttpPut("{id}")]
+         [HttpPut("{id}")]
         public IActionResult Update(int id, [FromBody]Product product)
         {
             var todo = _context.Products.Find(id);
@@ -140,59 +160,77 @@ namespace TripStyle.Api.Controllers
         [HttpGet("{color}")]
         public IEnumerable<Product> Get(string color)
         {
+
             return _context.Products.Where(product => product.Color == color).ToList();
-        }
         
+        }
         [HttpGet("Region/{searchterm}")]
-        public IEnumerable<ProductResponse> Getsearch(string searchterm)
+        public IEnumerable<Product> Getsearch(string searchterm)
         {
-            var result = _context.Products.Where(p=>p.Region == searchterm).Select (p=>new ProductResponse{Name=p.Name,Color=p.Color,Price=p.Price,Season=p.Season, Size=p.Size,Region=searchterm}).OrderBy(p=>p.Price).ToList();
-            return result;
+            
+            
+            var result = _context.Products.Where(p=>p.Region == searchterm).OrderBy(p=>p.Price).ToList();
+             
+           
+            return result;     
+ 
+        
         }   
 
-        [HttpGet("Name/{searchterm}")]
+        [HttpGet("name/{searchterm}")]
         public IEnumerable<ProductResponse> GetsearchName(string searchterm)
         {
-
+            
+            
             var result = _context.Categories.FirstOrDefault(p=>p.Name == searchterm);
             var products = _context.Products.Where(p=>p.CategoryId==result.CategoryId).Select (p=>new ProductResponse{Name=p.Name,Color=p.Color,Price=p.Price,Region=p.Region,Season=p.Season,Size=p.Size,CategoryName=searchterm}).OrderBy(p=>p.Price) .ToList();
            
             return products;     
-        }
-
-        // [HttpPost("Shoppingcart")]
-        // public IActionResult InsertIntoShoppingcart([FromBody]PurchaseLineApiRequest Request)
-        // {
-
-        //     var result = _context.Products.Where(P=>P.ProductId==Request.ProductId ).ToList();
-
             
-        //           if (!result.Any()){
-        //               return BadRequest(" selected product doesn't exist");
+ 
+        
+        }    
 
-        //           }
-        //     var result1 = _context.Users.Where(u=>u.UserId== Request.UserId).Include(u=>u.Purchases).SelectMany(u=>u.Purchases).FirstOrDefault(p=>!p.IsConfirmed);
-             
-               
-            
-        //     return result1;
+          [HttpPost("Shoppingcart")]
+          
+          public IActionResult InsertIntoShoppingcart([FromBody]PurchaseLineApiRequest Request)
+        {
 
-        // }
-/* var selected = table.Where(t => uids.Contains(t.uid));
-var result1 = this._context.Users.Where(u=>u.UserId== Request.UserId).Contains(u=>u.Purchase)
-                       .Where(prod => itemsIds.Contains(prod.Id)
-                       .Select(prod => new
-                       {
-                           Id = prod. ProductId,
-                           Name = prod.Name,
-                           Color = prod.Color,
-                           Size = prod.Size,
-                           Quantity = prod.Quantity
-                           //Price = prod.Price.Where(price => price.Current == 1).Select(price => price.Value).Single()
-                       }));
+            var result = this._context.Products.Where(P=>P.ProductId==Request.ProductId ).Include(p=>p.PurchaseLines).SelectMany(u=>u.PurchaseLines).FirstOrDefault(p=>p.IsConfirmed);
+                       
+                          
+                       
 
 
             return new OkObjectResult(result);
 
-    }*/
+        }
+
+
+
+        /*  public IActionResult InsertIntoShoppingcart([FromBody]PurchaseLineApiRequest Request)
+         {
+
+             var result = _context.Products.Where(P=>P.ProductId==Request.ProductId ).ToList();
+
+            
+                   if (!result.Any()){
+                       return BadRequest(" selected product doesn't exist");
+
+                   }
+             var result1 = _context.Users.Where(u=>u.UserId== Request.UserId).Include(u=>u.Purchases).SelectMany(u=>u.Purchases). FirstOrDefault(p=>!p.IsConfirmed);
+             
+               
+            
+             return new OkObjectResult(result1);
+
+         }*/
+
+       
+            
+
+           
+
+         
+
 }}

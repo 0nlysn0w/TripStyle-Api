@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace TripStyle.Api.Models
 {
-    public class Product
+    public class Product:Base
     {
         public int ProductId { get; set; }
         public string Name { get; set; }
@@ -14,13 +14,15 @@ namespace TripStyle.Api.Models
         public string Color { get; set; }
         public string Region { get; set; }
         public string Season { get; set; }
+        public string Quantity { get; set; } 
+
 
 
         public ICollection<Image> Images { get; set; }
         public Category Category { get; set; }
         public int CategoryId { get; set; }
-
         public ICollection<PurchaseLine> PurchaseLines { get; set; }
         // public ICollection<BasketProduct> BasketProducts { get; set; }
+        //public ICollection<Purchase> Purchases { get; set; }
     }
 }
