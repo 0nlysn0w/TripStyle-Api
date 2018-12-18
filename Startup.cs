@@ -28,7 +28,14 @@ namespace TripStyle.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<TripStyleContext>(
-                opt => opt.UseSqlite("Data Source=tripstyle.db")
+
+                // This is the local db
+                // opt => opt.UseSqlite("Data Source=tripstyle.db")
+                
+                // This is the online db
+                opt => opt.UseSqlServer("Data Source=145.24.222.139,8080;" +
+                                        "Database=TripStyleDev;Persist Security Info=True;" +
+                                        "User ID=sa; Password=Tripstyle2018")
             );
 
             services.AddCors();

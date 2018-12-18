@@ -16,21 +16,23 @@ namespace TripStyle.Api.Models
         public DbSet<PurchaseLine> PurchaseLines { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<User> Users { get; set; }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public DbSet<ConfirmationMail> ConfirmationMails { get; set; }
+        public DbSet<UserAuthentication> UserAuthentications { get; set; }
+        
+         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
          {
-             //optionsBuilder.UseSqlServer("Data Source=145.24.222.139,8080;" +
-                                            // "Database=TripStyleDB;Persist Security Info=True;" +
-                                            // "User ID=sa; Password=Tripstyle2018");
-             optionsBuilder.UseSqlite("Data Source=../TripStyle.Api/tripstyle.db");
+             optionsBuilder.UseSqlServer("Data Source=145.24.222.139,8080;" +
+                                        "Database=TripStyleDev;Persist Security Info=True;" +
+                                        "User ID=sa; Password=Tripstyle2018");
+             //optionsBuilder.UseSqlite("Data Source=../TripStyle.Api/tripstyle.db");
          }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Address>()
-                .HasKey(a => new { a.AddressId });
+            // modelBuilder.Entity<Address>()
+            //     .HasKey(a => new { a.AddressId });
 
-            // User has one basket
+            // //User has one basket
             // modelBuilder.Entity<User>()
             //     .HasOne(u => u.Basket)
             //     .WithOne(b => b.User)
@@ -41,7 +43,7 @@ namespace TripStyle.Api.Models
             //     .WithOne(u => u.Basket)
             //     .HasForeignKey<User>(u => u.BasketId);
 
-            // Basket and products 
+            // //Basket and products 
             // modelBuilder.Entity<BasketProduct>()
             //     .HasKey(bp => new
             //     {
@@ -59,7 +61,7 @@ namespace TripStyle.Api.Models
             //     .WithMany(p => p.BasketProducts)
             //     .HasForeignKey(bp => bp.ProductId);
 
-            // Product has many images
+            // //Product has many images
             // modelBuilder.Entity<Product>()
             //     .HasMany(p => p.Images)
             //     .WithOne(i => i.Product);
@@ -70,11 +72,10 @@ namespace TripStyle.Api.Models
             //     .WithMany(a => a.Purchases);
 
             // // Product has one category
-            modelBuilder.Entity<Product>()
-                .HasOne(p => p.Category)
-                .WithMany(c => c.Products)
-                .HasForeignKey(p => p.CategoryId);
-
+             modelBuilder.Entity<Product>()
+                 .HasOne(p => p.Category)
+                 .WithMany(c => c.Products)
+                 .HasForeignKey(p => p.CategoryId);
             // // User has many addresses
             // modelBuilder.Entity<User>()
             //     .HasMany(u => u.Addresses)
@@ -92,7 +93,7 @@ namespace TripStyle.Api.Models
             //     .WithOne(p => p.User);
                 
 
-            // Product and Purchase many to many
+           // Product and Purchase many to many
             modelBuilder.Entity<PurchaseLine>(entity =>
                 {
                     // Foreign keys of PurchaseLine
