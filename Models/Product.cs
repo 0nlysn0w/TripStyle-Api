@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace TripStyle.Api.Models
 {
-    public class Product:Base
+    public class Product
     {
         public int ProductId { get; set; }
         public string Name { get; set; }

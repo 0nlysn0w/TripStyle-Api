@@ -17,7 +17,7 @@ namespace TripStyle.Api.Controllers
             _context = context;
         }
 
-        public IQueryable<Purchase> GetOrderofUser(int id)
+      /*   public IQueryable<Purchase> GetOrderofUser(int id)
         {
          
             var purchase = _context.Purchases.Where(i => i.IsConfirmed == false);
@@ -30,7 +30,7 @@ namespace TripStyle.Api.Controllers
             var purchase = _context.Purchases.Where(i => i.IsConfirmed == false);
 
             return purchase;
-        }
+        }*/
 
         // TODO: implement correct CRUD functions. The current one are just placeholders
         [HttpGet]

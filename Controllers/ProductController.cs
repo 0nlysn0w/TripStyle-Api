@@ -19,7 +19,7 @@ namespace TripStyle.Api.Controllers
             _context = context;
         }
         [HttpGet]
-        public IEnumerable<Product> Get()
+       /*  public IEnumerable<Product> Get()
         {
             return _context.Products.ToList();
         }
@@ -34,10 +34,10 @@ namespace TripStyle.Api.Controllers
             }
 
             return product;
-        }
+        }*/
 
 
-     /*  [HttpGet]
+       [HttpGet]
         public IQueryable<Product> Get()
         {
                 var result = from p in _context.Products 
@@ -84,7 +84,7 @@ namespace TripStyle.Api.Controllers
             };
     
             return result;
-        }*/
+        }
 
         // [HttpGet]
         // // string gender, string type, 
@@ -196,7 +196,8 @@ namespace TripStyle.Api.Controllers
           public IActionResult InsertIntoShoppingcart([FromBody]PurchaseLineApiRequest Request)
         {
 
-            var result = this._context.Products.Where(P=>P.ProductId==Request.ProductId ).Include(p=>p.PurchaseLines).SelectMany(u=>u.PurchaseLines).FirstOrDefault(p=>p.IsConfirmed);
+            var result = this._context.Products.Where(P=>P.ProductId==Request.ProductId )
+            .Include(p=>p.PurchaseLines).SelectMany(u=>u.PurchaseLines).FirstOrDefault(p=>p.IsConfirmed);
                        
                           
                        
