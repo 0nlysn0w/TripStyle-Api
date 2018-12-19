@@ -54,9 +54,9 @@ namespace TripStyle.Api.Controllers
                     Region =p.Region,
                     Season = p.Season,
                     Category =p.Category,
-                    PurchaseLines = p.PurchaseLines,
+                    PurchaseLines = p.PurchaseLines
                     //ReleaseYear = m.ReleaseYear,
-                    Images = ProIma.ToList()
+                    //Images = ProIma.ToList()
                 };
                 return result;
         }   
@@ -78,9 +78,9 @@ namespace TripStyle.Api.Controllers
                 Region =p.Region,
                 Season = p.Season,
                 Category =p.Category,
-                PurchaseLines = p.PurchaseLines,
+                PurchaseLines = p.PurchaseLines
                 //ReleaseYear = m.ReleaseYear,
-                Images = ProIma.ToList()
+                //Images = ProIma.ToList()
             };
     
             return result;

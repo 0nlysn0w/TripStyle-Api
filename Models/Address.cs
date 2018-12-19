@@ -14,5 +14,6 @@ namespace TripStyle.Api.Models
         // public List<Purchase> Purchases { get; set; }
         public User User { get; set; }
         public int? UserId { get; set; }
+        public int? Current { get; set; }
     }
 }

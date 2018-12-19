@@ -18,7 +18,7 @@ namespace TripStyle.Api.Models
 
 
 
-        public ICollection<Image> Images { get; set; }
+        public string Image { get; set; }
         public Category Category { get; set; }
         public int CategoryId { get; set; }
         public ICollection<PurchaseLine> PurchaseLines { get; set; }
