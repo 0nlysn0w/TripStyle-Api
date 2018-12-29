@@ -10,7 +10,7 @@ namespace TripStyle.Api.Models
 
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Category> Categories { get; set; }
-        public DbSet<Image> Images { get; set; }
+        //public DbSet<Image> Images { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Purchase> Purchases { get; set; }
         public DbSet<PurchaseLine> PurchaseLines { get; set; }
@@ -19,10 +19,10 @@ namespace TripStyle.Api.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
          {
-             //optionsBuilder.UseSqlServer("Data Source=145.24.222.139,8080;" +
-             //                                "Database=TripStyleDB;Persist Security Info=True;" +
-             //                                "User ID=sa; Password=Tripstyle2018");
-             optionsBuilder.UseSqlite("Data Source=../TripStyle.Api/tripstyle.db");
+             optionsBuilder.UseSqlServer("Data Source=145.24.222.139,8080;" +
+                                            "Database=TripStyleDev;Persist Security Info=True;" +
+                                            "User ID=sa; Password=Tripstyle2018");
+            //  optionsBuilder.UseSqlite("Data Source=../TripStyle.Api/tripstyle.db");
          }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

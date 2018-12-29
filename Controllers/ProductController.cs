@@ -20,53 +20,16 @@ namespace TripStyle.Api.Controllers
         [ProducesResponseType(200)]
         [HttpGet]
         
-        public IQueryable<Product> Get()
+        public IEnumerable<Product> Get()
         {
-                var result = from p in _context.Products 
-                join i in _context.Images
-                on p.ProductId equals i.ImageId into ProIma
-                select new Product{
-                    ProductId = p.ProductId,
-                    Price = p.Price,
-                    Name = p.Name,
-                    Make = p.Make,
-                    Stock =p.Stock,
-                    Size = p.Size,
-                    Color =p.Color,
-                    Region =p.Region,
-                    Season = p.Season,
-                    Category =p.Category,
-                    PurchaseLines = p.PurchaseLines,
-                    //ReleaseYear = m.ReleaseYear,
-                    Images = ProIma.ToList()
-                };
-                return result;
+            return _context.Products.ToList();
         }
 
         [ProducesResponseType(200)]
         [HttpGet("{id}", Name = "GetProduct")]
-        public IQueryable<Product> Get(int id)
+        public Product Get(int id)
         {
-            var result = from p in _context.Products where p.ProductId == id
-            join i in _context.Images
-            on p.ProductId equals i.ImageId into ProIma
-            select new Product{
-                ProductId = p.ProductId,
-                Price = p.Price,
-                Name = p.Name,
-                Make = p.Make,
-                Stock =p.Stock,
-                Size = p.Size,
-                Color =p.Color,
-                Region =p.Region,
-                Season = p.Season,
-                Category =p.Category,
-                PurchaseLines = p.PurchaseLines,
-                //ReleaseYear = m.ReleaseYear,
-                Images = ProIma.ToList()
-            };
-    
-            return result;
+            return _context.Products.Find(id);
         }
 
         [HttpPost]
