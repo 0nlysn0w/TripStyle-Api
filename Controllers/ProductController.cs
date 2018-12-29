@@ -19,7 +19,7 @@ namespace TripStyle.Api.Controllers
 
         [ProducesResponseType(200)]
         [HttpGet]
-        
+
         public IEnumerable<Product> Get()
         {
             return _context.Products.ToList();
@@ -27,9 +27,29 @@ namespace TripStyle.Api.Controllers
 
         [ProducesResponseType(200)]
         [HttpGet("{id}", Name = "GetProduct")]
-        public Product Get(int id)
+        public ActionResult<Product> GetById(int id)
         {
             return _context.Products.Find(id);
+
+            // var result = from p in _context.Products
+            //              where p.ProductId == id
+            //              select new Product
+            //              {
+            //                  ProductId = p.ProductId,
+            //                  Price = p.Price,
+            //                  Name = p.Name,
+            //                  Make = p.Make,
+            //                  Stock = p.Stock,
+            //                  Size = p.Size,
+            //                  Color = p.Color,
+            //                  Region = p.Region,
+            //                  Season = p.Season,
+            //                  Category = p.Category,
+            //                  PurchaseLines = p.PurchaseLines,
+            //                  Image = p.Image
+            //              };
+
+            // return result;
         }
 
         [HttpPost]
@@ -43,7 +63,7 @@ namespace TripStyle.Api.Controllers
             _context.Products.Add(product);
             _context.SaveChanges();
 
-            return CreatedAtRoute("GetProduct", new { id = product.ProductId}, product);
+            return CreatedAtRoute("GetProduct", new { id = product.ProductId }, product);
         }
 
         [HttpPut("{id}")]
@@ -84,16 +104,10 @@ namespace TripStyle.Api.Controllers
             return NoContent();
         }
 
-        [HttpGet("{color}")]
-        public IEnumerable<Product> Get(string color)
-        {
-            return _context.Products.Where(product => product.Color == color).ToList();
-        }
-        
         [HttpGet("Region/{searchterm}")]
         public IEnumerable<Product> Getsearch(string searchterm)
         {
-            return _context.Products.Where(p=>p.Region == searchterm).OrderBy(p=>p.Price).ToList();
-        }    
+            return _context.Products.Where(p => p.Region == searchterm).OrderBy(p => p.Price).ToList();
+        }
     }
 }

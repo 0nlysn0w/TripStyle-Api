@@ -20,7 +20,7 @@ namespace TripStyle.Api.Models
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
          {
              optionsBuilder.UseSqlServer("Data Source=145.24.222.139,8080;" +
-                                            "Database=TripStyleDev;Persist Security Info=True;" +
+                                            "Database=TripStyleJoost;Persist Security Info=True;" +
                                             "User ID=sa; Password=Tripstyle2018");
             //  optionsBuilder.UseSqlite("Data Source=../TripStyle.Api/tripstyle.db");
          }

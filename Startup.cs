@@ -37,7 +37,7 @@ namespace TripStyle.Api
             services.AddDbContext<TripStyleContext>(
                 opt => opt.UseSqlServer(
                     "Data Source=145.24.222.139,8080;" +
-                    "Database=TripStyleDev;Persist Security Info=True;" +
+                    "Database=TripStyleJoost;Persist Security Info=True;" +
                     "User ID=sa; Password=Tripstyle2018")
 
                 // opt => opt.UseSqlite("Data Source=tripstyle.db")
