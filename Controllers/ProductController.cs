@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using TripStyle.Api.Models;
 
 namespace TripStyle.Api.Controllers
@@ -19,10 +20,25 @@ namespace TripStyle.Api.Controllers
 
         [ProducesResponseType(200)]
         [HttpGet]
-
         public IEnumerable<Product> Get()
         {
-            return _context.Products.ToList();
+            return _context.Products.Include(p => p.Category);
+        }
+
+        // Stub for pagination?
+        [ProducesResponseType(200)]
+        [HttpGet("getfive")]
+        public IEnumerable<Product> GetFive()
+        {
+            return _context.Products.Take(5);
+        }
+        
+        // Stub for pagination?
+        [ProducesResponseType(200)]
+        [HttpGet("get20")]
+        public IEnumerable<Product> Get20()
+        {
+            return _context.Products.Take(20);
         }
 
         [ProducesResponseType(200)]
@@ -30,26 +46,6 @@ namespace TripStyle.Api.Controllers
         public ActionResult<Product> GetById(int id)
         {
             return _context.Products.Find(id);
-
-            // var result = from p in _context.Products
-            //              where p.ProductId == id
-            //              select new Product
-            //              {
-            //                  ProductId = p.ProductId,
-            //                  Price = p.Price,
-            //                  Name = p.Name,
-            //                  Make = p.Make,
-            //                  Stock = p.Stock,
-            //                  Size = p.Size,
-            //                  Color = p.Color,
-            //                  Region = p.Region,
-            //                  Season = p.Season,
-            //                  Category = p.Category,
-            //                  PurchaseLines = p.PurchaseLines,
-            //                  Image = p.Image
-            //              };
-
-            // return result;
         }
 
         [HttpPost]

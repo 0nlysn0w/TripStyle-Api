@@ -19,6 +19,7 @@ using TripStyle.Api.Models;
 using TripStyle.Api.Services;
 using Swashbuckle.AspNetCore;
 using Swashbuckle.AspNetCore.Swagger;
+using Newtonsoft.Json;
 
 namespace TripStyle.Api
 {
@@ -44,7 +45,12 @@ namespace TripStyle.Api
             );
 
             services.AddCors();
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+                .AddJsonOptions(options =>
+                {
+                    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                });
 
                         // configure strongly typed settings objects
             var appSettingsSection = Configuration.GetSection("AppSettings");
