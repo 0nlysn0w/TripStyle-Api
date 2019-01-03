@@ -30,7 +30,7 @@ namespace TripStyle.Api.Controllers
         [HttpGet("getfive")]
         public IEnumerable<Product> GetFive()
         {
-            return _context.Products.Take(5);
+            return _context.Products.Include(p =>p.Category).Take(5);
         }
         
         // Stub for pagination?
@@ -38,14 +38,14 @@ namespace TripStyle.Api.Controllers
         [HttpGet("get20")]
         public IEnumerable<Product> Get20()
         {
-            return _context.Products.Take(20);
+            return _context.Products.Include(p =>p.Category).Take(20);
         }
 
         [ProducesResponseType(200)]
         [HttpGet("{id}", Name = "GetProduct")]
         public ActionResult<Product> GetById(int id)
         {
-            return _context.Products.Find(id);
+            return _context.Products.Include(p => p.Category).SingleOrDefault(p => p.ProductId == id);
         }
 
         [HttpPost]
