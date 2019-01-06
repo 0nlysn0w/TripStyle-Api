@@ -107,9 +107,20 @@ namespace TripStyle.Api.Controllers
         }
 
         [HttpGet("search")]
-        public IEnumerable<Product> GetsearchName([FromQuery]string name)
+        public IEnumerable<Product> GetsearchName([FromQuery]string name = null, [FromQuery]string region = null)
         {
-            return _context.Products.Where(p => p.Name.Contains(name)).Take(8);
+            IEnumerable<Product> products =  _context.Products.Include(p => p.Category).OrderBy(p => p.ProductId);
+
+            if (!string.IsNullOrEmpty(name)) {
+                products = products.Where(p => p.Name.Contains(name));
+            }
+            
+            if (!string.IsNullOrEmpty(region)) {
+                products = products.Where(p => p.Region.Contains(region));
+            }
+
+
+            return products.Take(10);
         }    
     }
 }
