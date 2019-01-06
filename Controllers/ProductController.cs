@@ -105,5 +105,11 @@ namespace TripStyle.Api.Controllers
         {
             return _context.Products.Where(p => p.Region == searchterm).OrderBy(p => p.Price).ToList();
         }
+
+        [HttpGet("search")]
+        public IEnumerable<Product> GetsearchName([FromQuery]string name)
+        {
+            return _context.Products.Where(p => p.Name.Contains(name)).Take(8);
+        }    
     }
 }
