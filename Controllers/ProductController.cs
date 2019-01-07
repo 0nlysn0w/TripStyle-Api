@@ -30,15 +30,15 @@ namespace TripStyle.Api.Controllers
         [HttpGet("getfive")]
         public IEnumerable<Product> GetFive()
         {
-            return _context.Products.Include(p =>p.Category).Take(5);
+            return _context.Products.Include(p => p.Category).Take(5);
         }
-        
+
         // Stub for pagination?
         [ProducesResponseType(200)]
         [HttpGet("get20")]
         public IEnumerable<Product> Get20()
         {
-            return _context.Products.Include(p =>p.Category).Take(20);
+            return _context.Products.Include(p => p.Category).Take(20);
         }
 
         [ProducesResponseType(200)]
@@ -107,24 +107,32 @@ namespace TripStyle.Api.Controllers
         }
 
         [HttpGet("filter")]
-        public IEnumerable<Product> GetFilteredProducts([FromQuery]string name = null, [FromQuery]string region = null, [FromQuery]string category = null)
+        public IEnumerable<Product> GetFilteredProducts([FromQuery]string name = null, [FromQuery]string region = null, [FromQuery]string category = null, [FromQuery]string color = null)
         {
-            IEnumerable<Product> products =  _context.Products.Include(p => p.Category).OrderBy(p => p.ProductId);
+            IEnumerable<Product> products = _context.Products.Include(p => p.Category).OrderBy(p => p.ProductId);
 
-            if (!string.IsNullOrEmpty(name)) {
+            if (!string.IsNullOrEmpty(name))
+            {
                 products = products.Where(p => p.Name.Contains(name));
             }
-            
-            if (!string.IsNullOrEmpty(region)) {
+
+            if (!string.IsNullOrEmpty(region))
+            {
                 products = products.Where(p => p.Region.Contains(region));
             }
 
-            if (!string.IsNullOrEmpty(category)) {
+            if (!string.IsNullOrEmpty(category))
+            {
                 products = products.Where(p => p.Category.Name.Contains(category));
+            }
+
+            if (!string.IsNullOrEmpty(color))
+            {
+                products = products.Where(p => p.Color.Contains(color));
             }
 
 
             return products.Take(10);
-        }    
+        }
     }
 }
