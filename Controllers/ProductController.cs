@@ -107,7 +107,7 @@ namespace TripStyle.Api.Controllers
         }
 
         [HttpGet("filter")]
-        public IEnumerable<Product> GetFilteredProducts([FromQuery]string name = null, [FromQuery]string region = null)
+        public IEnumerable<Product> GetFilteredProducts([FromQuery]string name = null, [FromQuery]string region = null, [FromQuery]string category = null)
         {
             IEnumerable<Product> products =  _context.Products.Include(p => p.Category).OrderBy(p => p.ProductId);
 
@@ -117,6 +117,10 @@ namespace TripStyle.Api.Controllers
             
             if (!string.IsNullOrEmpty(region)) {
                 products = products.Where(p => p.Region.Contains(region));
+            }
+
+            if (!string.IsNullOrEmpty(category)) {
+                products = products.Where(p => p.Category.Name.Contains(category));
             }
 
 
