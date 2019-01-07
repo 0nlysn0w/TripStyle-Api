@@ -11,6 +11,7 @@ namespace TripStyle.Api.Models
         public bool IsConfirmed { get; set; }
 
         public User User { get; set; }
+        public int UserId { get; set; }
         public ICollection<PurchaseLine> PurchaseLines { get; set; }
     }
 }

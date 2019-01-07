@@ -7,7 +7,6 @@ using TripStyle.Api.Models;
 
 namespace TripStyle.Api.Controllers
 {
-    //Nog niet AF
     [Route("api/[controller]")]
     public class RoleController : Controller
     {

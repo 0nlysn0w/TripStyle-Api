@@ -9,7 +9,6 @@ using TripStyle.Api.Services;
 
 namespace TripStyle.Api.Controllers
 {
-    //TODO doesnt work yet
     [Route("api/[controller]")]
     public class UserController : Controller
     {
@@ -34,14 +33,6 @@ namespace TripStyle.Api.Controllers
 
             return Ok(user);
         }
-
-        // [HttpGet]
-        // public IActionResult GetAll()
-        // {
-        //     var users =  _userService.GetAll();
-        //     return Ok(users);
-        // }
-
 
         [HttpGet]
         public IEnumerable<User> Get()

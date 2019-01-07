@@ -8,9 +8,7 @@ namespace TripStyle.Api.Models
         public TripStyleContext() {}
         public TripStyleContext(DbContextOptions<TripStyleContext> options) : base(options) { }
 
-        public DbSet<Address> Addresses { get; set; }
         public DbSet<Category> Categories { get; set; }
-        //public DbSet<Image> Images { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Purchase> Purchases { get; set; }
         public DbSet<PurchaseLine> PurchaseLines { get; set; }
