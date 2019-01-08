@@ -112,7 +112,7 @@ namespace TripStyle.Api.Controllers
             [FromQuery]string region = null, 
             [FromQuery]string category = null, 
             [FromQuery]string color = null,
-            [FromQuery]string orderBy = "az"
+            [FromQuery]string orderBy = null
         )
         {
             IEnumerable<Product> products = _context.Products.Include(p => p.Category).OrderBy(p => p.ProductId);
@@ -137,7 +137,7 @@ namespace TripStyle.Api.Controllers
                 products = products.Where(p => p.Color.Contains(color));
             }
             
-            if (orderBy == "az")
+            if (string.IsNullOrEmpty(orderBy) || orderBy == "az")
             {
                 products = products.OrderBy(p => p.Name);
             }
@@ -157,7 +157,7 @@ namespace TripStyle.Api.Controllers
                 products = products.OrderByDescending(p => p.Price);
             }
 
-            return products.Take(10);
+            return products.Take(40);
         }
     }
 }
