@@ -107,7 +107,13 @@ namespace TripStyle.Api.Controllers
         }
 
         [HttpGet("filter")]
-        public IEnumerable<Product> GetFilteredProducts([FromQuery]string name = null, [FromQuery]string region = null, [FromQuery]string category = null, [FromQuery]string color = null)
+        public IEnumerable<Product> GetFilteredProducts(
+            [FromQuery]string name = null, 
+            [FromQuery]string region = null, 
+            [FromQuery]string category = null, 
+            [FromQuery]string color = null,
+            [FromQuery]string orderBy = "az"
+        )
         {
             IEnumerable<Product> products = _context.Products.Include(p => p.Category).OrderBy(p => p.ProductId);
 
@@ -130,7 +136,26 @@ namespace TripStyle.Api.Controllers
             {
                 products = products.Where(p => p.Color.Contains(color));
             }
+            
+            if (orderBy == "az")
+            {
+                products = products.OrderBy(p => p.Name);
+            }
 
+            if (orderBy == "za")
+            {
+                products = products.OrderByDescending(p => p.Name);
+            }
+
+            if (orderBy == "ce")
+            {
+                products = products.OrderBy(p => p.Price);
+            }
+
+            if (orderBy == "ec")
+            {
+                products = products.OrderByDescending(p => p.Price);
+            }
 
             return products.Take(10);
         }
