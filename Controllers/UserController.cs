@@ -31,7 +31,7 @@ namespace TripStyle.Api.Controllers
             if (user == null)
                 return BadRequest(new { message = "Email or password is incorrect" });
 
-            return Ok(user);
+            return new OkObjectResult(user);
         }
 
         [HttpGet]
