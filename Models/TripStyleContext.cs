@@ -65,14 +65,15 @@ namespace TripStyle.Api.Models
             // Purchase has one address
             // modelBuilder.Entity<Purchase>()
             //     .HasOne(p => p.DeliveryAddress)
-            //     .WithMany(a => a.Purchases);
+            //     .WithMany(a => a.Purchases);*/
 
-            // Product has one category
-            modelBuilder.Entity<Product>()
-                .HasOne(p => p.Category)
-                .WithMany(c => c.Products);
+            
+           modelBuilder.Entity<Product>()
+                 .HasOne(p => p.Category)
+                 .WithMany(c => c.Products)
+                 .HasForeignKey(p => p.CategoryId);
 
-            // User has many addresses
+           /*  // User has many addresses
             modelBuilder.Entity<User>()
                 .HasMany(u => u.Addresses)
                 .WithOne(a => a.User);
