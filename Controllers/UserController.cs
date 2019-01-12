@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using TripStyle.Api.Models;
 using TripStyle.Api.Services;
 
@@ -19,6 +20,13 @@ namespace TripStyle.Api.Controllers
         {
             _context = context;
             _userService = userService;
+        }
+
+        [HttpGet("stats/{id}")]
+        public IActionResult GetUserPurchases(int id)
+        {
+            var result = _context.Purchases.Include(p => p.PurchaseLines).ThenInclude(pl => pl.Product).Where(p => p.UserId == id);
+            return Ok(result);
         }
 
         [AllowAnonymous]
