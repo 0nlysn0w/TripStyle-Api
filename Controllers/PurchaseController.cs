@@ -4,17 +4,27 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using TripStyle.Api.Models;
+using TripStyle.Api.Models.Emails;
 
 namespace TripStyle.Api.Controllers
 {
     [Route("api/[controller]")]
     public class PurchaseController : Controller
-    {
+    {   
         private readonly TripStyleContext _context;
 
         public PurchaseController(TripStyleContext context)
         {
             _context = context;
+        }
+
+        
+        [HttpGet]
+        public string GetMail()
+        {   
+            int id = 1;
+            var email = from u in _context.Users where u.UserId == id select u.Email;
+            return email.Single();            
         }
 
         [HttpGet]
@@ -44,7 +54,7 @@ namespace TripStyle.Api.Controllers
             }
             _context.Purchases.Add(purchase);
             _context.SaveChanges();
-
+            Mail.Factuur(GetMail());
             return CreatedAtRoute("GetPurchase", new { id = purchase.PurchaseId }, purchase);
         }
 
