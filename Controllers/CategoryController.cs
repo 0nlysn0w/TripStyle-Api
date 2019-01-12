@@ -79,5 +79,15 @@ namespace TripStyle.Api.Controllers
             _context.SaveChanges();
             return NoContent();
         }
+
+        [HttpGet("stats")]
+        public IActionResult GetAmountSoldPerCategory()
+        {
+            var result = from pl in _context.PurchaseLines
+                         group pl by pl.Product.Category.Name into CatTotal
+                         select new { Category = CatTotal.Key, Sum = CatTotal.Sum(x => x.Quantity) };
+
+            return Ok(result);
+        }
     }
 }

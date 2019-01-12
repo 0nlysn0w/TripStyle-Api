@@ -14,7 +14,7 @@ namespace TripStyle.Api.Models
         public string Name { get; set; }
         public string Make { get; set; }
         public string Price { get; set; }
-        public string Quantity { get; set; }
+        public int Quantity { get; set; }
 
     }
 }

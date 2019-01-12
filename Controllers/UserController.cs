@@ -29,7 +29,8 @@ namespace TripStyle.Api.Controllers
             var user = _userService.Authenticate(userParam.Email, userParam.Password);
 
             if (user == null)
-                return BadRequest(new { message = "Email or password is incorrect" });
+                // return BadRequest(new { message = "Email or password is incorrect" });
+                return Unauthorized();
 
             return new OkObjectResult(user);
         }
