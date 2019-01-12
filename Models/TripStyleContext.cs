@@ -68,10 +68,10 @@ namespace TripStyle.Api.Models
             //     .WithMany(a => a.Purchases);*/
 
             
-           modelBuilder.Entity<Product>()
-                 .HasOne(p => p.Category)
-                 .WithMany(c => c.Products)
-                 .HasForeignKey(p => p.CategoryId);
+        //    modelBuilder.Entity<Product>()
+        //          .HasOne(p => p.Category)
+        //          .WithMany(c => c.Products)
+        //          .HasForeignKey(p => p.CategoryId);
 
            /*  // User has many addresses
             modelBuilder.Entity<User>()
