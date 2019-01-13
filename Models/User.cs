@@ -22,7 +22,7 @@ namespace TripStyle.Api.Models
         public string Token { get; set; }
 
         public ICollection<Purchase> Purchases { get; set; }
-        public Role Role { get; set; }
         public int RoleId { get; set; }
+        public Role Role { get; set; }
     }
 }

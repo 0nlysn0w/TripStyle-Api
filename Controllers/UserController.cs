@@ -62,7 +62,7 @@ namespace TripStyle.Api.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(User user)
+        public ActionResult<User> Create([FromBody]User user)
         {
             if (user == null)
             {
@@ -71,7 +71,8 @@ namespace TripStyle.Api.Controllers
             _context.Users.Add(user);
             _context.SaveChanges();
 
-            return CreatedAtRoute("GetUser", new { UserId = user.UserId }, user);
+            // return Ok();
+            return user;
         }
 
         [HttpPut("{id}")]
