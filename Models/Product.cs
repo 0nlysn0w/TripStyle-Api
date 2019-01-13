@@ -9,7 +9,7 @@ namespace TripStyle.Api.Models
         public string Name { get; set; }
         public string Make { get; set; }
         public double Price { get; set; }
-        public string Stock { get; set; }
+        public int Stock { get; set; }
         public string Size { get; set; }
         public string Color { get; set; }
         public string Region { get; set; }
