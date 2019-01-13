@@ -18,9 +18,9 @@ namespace TripStyle.Api.Models
         public string PostalCode { get; set; }
         public string City { get; set; }
         public string Country { get; set; }
-
         public string Token { get; set; }
-
+        public int FavoritesId { get; set; }
+        public ICollection<Favorite> Favorites { get; set; }
         public ICollection<Purchase> Purchases { get; set; }
         public int RoleId { get; set; }
         public Role Role { get; set; }
