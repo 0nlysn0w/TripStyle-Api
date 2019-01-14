@@ -19,10 +19,10 @@ namespace TripStyle.Api.Controllers
         }
 
         [ProducesResponseType(200)]
-        [HttpGet]
-        public IEnumerable<Favorite> Get()
+        [HttpGet("{userid}")]
+        public IEnumerable<Favorite> Get(int userid)
         {
-            return _context.Favorites.Include(f => f.Product).ToList();
+            return _context.Favorites.Include(f => f.Product).Where(f => f.UserId == userid).ToList();
         }
 
         [HttpGet("check")]
