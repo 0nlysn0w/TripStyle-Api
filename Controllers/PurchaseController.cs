@@ -17,14 +17,17 @@ namespace TripStyle.Api.Controllers
         {
             _context = context;
         }
-
         
-        [HttpGet]
-        public string GetMail()
+        public string GetMail(int userId)
         {   
-            int id = 1;
-            var email = from u in _context.Users where u.UserId == id select u.Email;
-            return email.Single();            
+            // var email = from u in _context.Users where u.UserId == userId select u.Email;
+            // Console.WriteLine("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" + email);
+
+            var email = _context.Users.Where(u => u.UserId == userId).Select(u => u.Email).ToList();
+
+            var emailstring = email[0];
+
+            return emailstring;            
         }
 
         [HttpGet]
@@ -52,9 +55,15 @@ namespace TripStyle.Api.Controllers
             {
                 return NoContent();
             }
+
+            purchase.OrderDate = DateTime.UtcNow;
+
             _context.Purchases.Add(purchase);
             _context.SaveChanges();
-            Mail.Factuur(GetMail());
+
+            Mail.Factuur(GetMail(purchase.UserId));
+            // GetMail(purchase.UserId);
+            
             return CreatedAtRoute("GetPurchase", new { id = purchase.PurchaseId }, purchase);
         }
 
