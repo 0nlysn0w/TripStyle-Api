@@ -18,6 +18,7 @@ namespace TripStyle.Api.Controllers
             _context = context;
         }
         
+        [HttpGet("mail")]
         public string GetMail(int userId)
         {   
             // var email = from u in _context.Users where u.UserId == userId select u.Email;
